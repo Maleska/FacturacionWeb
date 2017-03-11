@@ -1,0 +1,164 @@
+﻿@model FacturacionWeb.Models.Login.login.BigViewModel
+@{
+    ViewBag.Title = "Iniciar Sesión";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link href="~/Content/CSS/Login/Login.css" rel="stylesheet" type="text/css" />
+    <style>
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+            .form-signin .form-signin-heading, .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                font-size: 16px;
+                height: auto;
+                padding: 10px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
+
+            .form-signin input[type="text"] {
+                margin-bottom: -1px;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+
+        .account-wall {
+            margin-top: 20px;
+            padding: 40px 0px 20px 0px;
+            background-color: #f7f7f7;
+            -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-title {
+            color: #555;
+            font-size: 18px;
+            font-weight: 400;
+            display: block;
+        }
+
+        .profile-img {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 10px;
+            display: block;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        .need-help {
+            margin-top: 10px;
+        }
+
+        .new-account {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+
+}
+
+@using (Html.BeginForm("Index", "Account", FormMethod.Post, new { id = "FrmLogin" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <h1 class="text-center login-title">Iniciar sesión</h1>
+                @Html.ValidationSummary(false, "", new { @class = "alert-danger" })
+                <div class="account-wall">
+                    <img class="profile-img" src="~/Content/img/generic-user.png"
+                         alt="">
+                    <center>
+                        <form class="form-signin">
+                            @*<input type="text" class="form-control" placeholder="Usuario" required autofocus>*@
+                            @Html.TextBoxFor(m => m.Login.usuario, new { @class = "form-control", placeholder = "Usuario", autofocus = "autofocus", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Login.usuario, "", new { @class = "text-danger" })
+                            <br />
+                            @*<input type="password" class="form-control" placeholder="Contraseña" required>*@
+                            @Html.PasswordFor(m => m.Login.contrasena, new { @class = "form-control", placeholder = "Contraseña", autofocus = "autofocus", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Login.contrasena, "", new { @class = "text-danger" })
+                            <br />
+                            <button class="btn btn-primary btn-block" id="btnAceptar" type="submit">
+                                Iniciar sesión
+                            </button>
+                            @*<label class="checkbox pull-left">
+                                    <input type="checkbox" value="remember-me">
+                                    Remember me
+                                </label>*@
+                            <a href="#" class="pull-right need-help" data-toggle="modal" data-target="#myModal">¿Olvidaste la contraseña? </a><span class="clearfix"></span>
+                        </form>
+                    </center>
+                </div>
+
+                @*<a href="~/Account/Register" class="text-center new-account" style="position:absolute center">Crea una cuenta </a>*@
+                <span>@Html.ActionLink("Crear una cuenta", "Register", "Account", routeValues: null, htmlAttributes: new { tenantname = "Ideasys" })</span>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("Recuperar", "Account", FormMethod.Post, new { id = "FrmLogin" }))
+{
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Recuperar Contraseña</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input">
+                        <label for="regpass">Usuario</label>
+                        @*<input type="password" name="regpass" id="regpass">*@
+                        @Html.TextBoxFor(m => m.Recuperar.usuario, new { @class = "form-control", id = "regpass" })
+                        <span class="spin"></span>
+                    </div>
+                    <div class="input">
+                        <label for="regpass">Correo</label>
+                        @*<input type="password" name="regpass" id="regpass">*@
+                        @Html.TextBoxFor(m => m.Recuperar.email, new { @class = "form-control", id = "regpass" })
+                        <span class="spin"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    @*<button type="submit" class="btn btn-success" data-dismiss="modal">Aceptar</button>*@
+                    <input type="submit" class="btn btn-primary" value="Aceptar" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
